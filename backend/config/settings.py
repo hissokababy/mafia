@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -48,6 +49,8 @@ INSTALLED_APPS = [
     'game',
     'voice',
     'telegram_bot',
+
+    'centrifugo',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +142,9 @@ MAILERS = {
 
 
 AUTH_USER_MODEL = 'accounts.User'
+
+
+CENTRIFUGO_API_URL = 'http://127.0.0.1:8000'
+
+CENTRIFUGO_API_KEY = ''
+CENTRIFUGO_TOKEN_SECRET = os.environ.get('CENTRIFUGO_TOKEN_SECRET')
