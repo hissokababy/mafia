@@ -1,0 +1,18 @@
+services:
+  centrifugo:
+    image: centrifugo/centrifugo:v6
+    container_name: mafia-centrifugo
+    command: centrifugo -c /centrifugo/config.json
+
+    ports:
+      - "9000:9000"
+
+    volumes:
+      - ./centrifugo_config.json:/centrifugo/config.json:ro
+
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+    restart: unless-stopped

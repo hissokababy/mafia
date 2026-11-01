@@ -1,0 +1,17 @@
+{
+    "http_server": {
+        "port": 9000
+    },
+    "client": {
+        "token": {
+            "hmac_secret_key": "6QTvvL7IOssjsIc3i371ojZF_e5BwsJ7--4D5t3bIHile7Cz_vFXgW-b3Y6S7cN1"
+        },
+        "allowed_origins": [
+            "http://localhost:8000",
+            "http://127.0.0.1:8000"
+        ]
+    },
+    "http_api": {
+        "key": "SP2wUf7c6zBWjGvW7r88rgGhcFBdLZcDjzv157GSaleqhkuMCl26JI3cpbx9PixX"
+    }
+}

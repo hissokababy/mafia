@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # Local apps
+    'notifications',
     'accounts',
     'friends',
     'rooms',
@@ -144,7 +145,9 @@ MAILERS = {
 AUTH_USER_MODEL = 'accounts.User'
 
 
-CENTRIFUGO_API_URL = 'http://127.0.0.1:8000'
+CENTRIFUGO_API_URL = 'http://127.0.0.1:9000'
 
-CENTRIFUGO_API_KEY = ''
-CENTRIFUGO_TOKEN_SECRET = os.environ.get('CENTRIFUGO_TOKEN_SECRET')
+CENTRIFUGO_TOKEN_SECRET = 'kTANvPhrj32PQavcXjwXCsxXF1BcYYuptJgQ9Y49ItfWvjm68UAZMBhM8XyZipfG'
+CENTRIFUGO_API_KEY = 'KL8hhns3-tkKoMGxFcS-rJoz2wPRctat9x7duYVuMEBDgsC0cu3xtVkKGGCcV2EI'
+
+
