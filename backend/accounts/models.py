@@ -1,54 +1,62 @@
+from django.conf import settings
 from django.db import models
-
-# Create your models here.
-
+from django.utils import timezone
+import uuid
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 class User(AbstractUser):
-    # Telegram
     telegram_id = models.BigIntegerField(
         unique=True,
         null=True,
-        blank=True,
-        verbose_name='Telegram ID'
+        blank=True
     )
-
     telegram_username = models.CharField(
         max_length=100,
         blank=True,
-        verbose_name='Telegram username'
+        null=True
     )
+    telegram_is_verified = models.BooleanField(default=False)
 
-    telegram_is_verified = models.BooleanField(
-        default=False,
-        verbose_name='Telegram подтверждён'
-    )
-
-    # Игровой профиль
-    nickname = models.CharField(
-        max_length=30,
-        blank=True,
-        verbose_name='Игровой никнейм'
-    )
-
+    nickname = models.CharField(max_length=50, blank=True)
     avatar = models.ImageField(
-        upload_to='avatars/',
+        upload_to="avatars/",
         blank=True,
-        null=True,
-        verbose_name='Аватар'
+        null=True
     )
 
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата регистрации'
-    )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nickname or self.username
-    
+
+
+class TelegramLoginAttempt(models.Model):
+    STATUS_CHOICES = (
+        ("pending", "Ожидает подтверждения"),
+        ("authenticated", "Подтверждён"),
+    )
+
+    token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
+    telegram_id = models.BigIntegerField(null=True, blank=True)
+    telegram_username = models.CharField(max_length=100, blank=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="telegram_login_attempts",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    confirmed_at = models.DateTimeField(null=True, blank=True)
+
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        ordering = ["-created_at"]
+
+    @property
+    def is_expired(self):
+        return timezone.now() >= self.expires_at

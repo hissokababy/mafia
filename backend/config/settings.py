@@ -32,28 +32,26 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    # Django apps
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
 
-    # Third-party apps
-    'rest_framework',
+    # Third-party
+    "rest_framework",
 
     # Local apps
-    'notifications',
-    'accounts',
-    'friends',
-    'rooms',
-    'game',
-    'voice',
-    'telegram_bot',
-
-    'centrifugo',
+    "accounts",
+    "friends",
+    "rooms",
+    "game",
+    "voice",
+    "telegram_bot",
+    "centrifugo",
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -142,8 +140,7 @@ MAILERS = {
 }
 
 
-AUTH_USER_MODEL = 'accounts.User'
-
+AUTH_USER_MODEL = "accounts.User"
 
 CENTRIFUGO_API_URL = 'http://127.0.0.1:9000'
 
@@ -151,3 +148,15 @@ CENTRIFUGO_TOKEN_SECRET = 'kTANvPhrj32PQavcXjwXCsxXF1BcYYuptJgQ9Y49ItfWvjm68UAZM
 CENTRIFUGO_API_KEY = 'KL8hhns3-tkKoMGxFcS-rJoz2wPRctat9x7duYVuMEBDgsC0cu3xtVkKGGCcV2EI'
 
 
+TELEGRAM_BOT_USERNAME = os.environ.get("TELEGRAM_BOT_USERNAME", "")
+TELEGRAM_BOT_WEBHOOK_SECRET = os.environ.get("TELEGRAM_BOT_WEBHOOK_SECRET", "")
+AUTH_REFRESH_COOKIE_NAME = "mafia_refresh"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "accounts.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
